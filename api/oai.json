@@ -1,0 +1,142 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Task list API",
+        "version": "0.1"
+    },
+    "paths": {
+        "/task/get": {
+            "description": "Gets all the tasks available on the endpoint",
+            "get": {
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/TaskList"
+                    }
+                }
+            }
+        },
+        "/task/get/{task_id}": {
+            "description": "Gets the specific task from the endpoint",
+            "parameters": [
+                {
+                    "name": "task_id",
+                    "in": "path",
+                    "schema": {
+                        "type": "string"
+                    },
+                    "required": true
+                }
+            ],
+            "get": {
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Task"
+                    }
+                }
+            }
+        },
+        "/task/remove": {
+            "description": "Removes all the tasks from the endpoint",
+            "post": {
+                "responses": {
+                    "201": {
+                        "description": "All the task on the endpoint have been removed"
+                    }
+                }
+            }
+        },
+        "/task/remove/{task_id}": {
+            "description": "Removes the specific task from the endpoint",
+            "parameters": [
+                {
+                    "name": "task_id",
+                    "in": "path",
+                    "schema": {
+                        "type": "string"
+                    },
+                    "required": true
+                }
+            ],
+            "post": {
+                "description": "Remove the specific task from the endpoint",
+                "responses": {
+                    "200": {
+                        "description": "The task was sucessfully removed."
+                    },
+                    "404": {
+                        "description": "The task does not exist."
+                    }
+                }
+            }
+        },
+        "/task/add": {
+            "description": "Adds a task to the endpoint",
+            "post": {
+                "parameters": [
+                    {
+                        "name": "text",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Task description"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "$ref": "#/components/responses/Task"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "responses": {
+            "Task": {
+                "description": "An individual task",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Task"
+                        }
+                    }
+                }
+            },
+            "TaskList": {
+                "description": "A list of tasks",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/TaskList"
+                        }
+                    }
+                }
+            }
+        },
+        "schemas": {
+            "Task": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "text"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Task identificator"
+                    },
+                    "text": {
+                        "type": "string",
+                        "description": "Task description"
+                    }
+                }
+            },
+            "TaskList": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/Task"
+                }
+            }
+        }
+    }
+}
