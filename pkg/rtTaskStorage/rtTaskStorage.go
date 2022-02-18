@@ -1,6 +1,8 @@
 package rtTaskStorage
 
 import (
+	"sort"
+
 	"github.com/javierlgroba/task-list/pkg/task"
 )
 
@@ -15,9 +17,14 @@ func NewRtTaskStorage() RtTaskStorage {
 }
 
 func (r RtTaskStorage) GetAll() []task.Task {
+	keys := make([]string, 0, len(r.tasks))
+	for k := range r.tasks {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
 	v := make([]task.Task, 0, len(r.tasks))
-	for _, value := range r.tasks {
-		v = append(v, value)
+	for _, k := range keys {
+		v = append(v, r.tasks[k])
 	}
 	return v
 }
