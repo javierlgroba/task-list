@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 
@@ -48,19 +49,21 @@ func addTask(c *gin.Context) {
 	task := task.Task{ID: task_id, Text: task_text}
 	if ok := tasks.Add(task); ok {
 		c.IndentedJSON(http.StatusCreated, task)
+	} else {
+		c.Status(http.StatusNotFound)
 	}
-	c.Status(http.StatusNotFound)
 }
 
 func main() {
 	tasks = rtTaskStorage.NewRtTaskStorage()
 	router := gin.Default()
+	router.Use(cors.Default())
 
 	router.GET("/task/get", getTasks)
 	router.GET("/task/get/:task_id", getTask)
 
-	router.POST("/task/remove", removeTasks)
-	router.POST("/task/remove/:task_id", removeTask)
+	router.DELETE("/task/remove", removeTasks)
+	router.DELETE("/task/remove/:task_id", removeTask)
 
 	router.POST("/task/add", addTask)
 

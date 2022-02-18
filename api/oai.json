@@ -37,7 +37,7 @@
         },
         "/task/remove": {
             "description": "Removes all the tasks from the endpoint",
-            "post": {
+            "delete": {
                 "responses": {
                     "201": {
                         "description": "All the task on the endpoint have been removed"
@@ -57,7 +57,7 @@
                     "required": true
                 }
             ],
-            "post": {
+            "delete": {
                 "description": "Remove the specific task from the endpoint",
                 "responses": {
                     "200": {
