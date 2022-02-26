@@ -7,11 +7,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 
-	"github.com/javierlgroba/task-list/pkg/rtTaskStorage"
+	"github.com/javierlgroba/task-list/pkg/rtTaskDb"
 	"github.com/javierlgroba/task-list/pkg/task"
 )
 
-var tasks rtTaskStorage.RtTaskStorage
+var tasks rtTaskDb.RtTaskDb
 
 func getTasks(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, tasks.GetAll())
@@ -55,7 +55,7 @@ func addTask(c *gin.Context) {
 }
 
 func main() {
-	tasks = rtTaskStorage.NewRtTaskStorage()
+	tasks = rtTaskDb.NewRtTaskDb()
 	router := gin.Default()
 	router.Use(cors.Default())
 
